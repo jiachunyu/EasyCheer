@@ -2,14 +2,30 @@ package com.springrain.easycheer.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table
 public class Tenant {
 
+	@Id
+	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	@GeneratedValue(generator = "system-uuid")
 	private String id;
-	
+
+	@Column
 	private String name;
 	
+	@Column
 	private int licenseNumber;
 
+	@Column
 	private Date licenseDate;
 	
 	public String getId() {
