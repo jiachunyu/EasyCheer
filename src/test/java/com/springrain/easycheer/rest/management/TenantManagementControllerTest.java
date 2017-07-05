@@ -1,11 +1,12 @@
 package com.springrain.easycheer.rest.management;
 
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,11 +52,9 @@ public class TenantManagementControllerTest {
 		requestTenant.setLicenseNumber(100);
 		JsonNode jsonNode = objectMapper.valueToTree(requestTenant);
 		((ObjectNode) jsonNode).remove("id");
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		objectMapper.writeValue(outputStream, jsonNode);
 
 		MvcResult mvcResult = mockMvc
-				.perform(post("/management/tenant").contentType(mediaTypeJson).content(outputStream.toByteArray()))
+				.perform(post("/management/tenant").contentType(mediaTypeJson).content(objectMapper.writeValueAsBytes(jsonNode)))
 				.andDo(print()).andExpect(status().isOk()).andExpect(content().contentType(mediaTypeJson)).andReturn();
 		Tenant responseTenant = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), Tenant.class);
 
