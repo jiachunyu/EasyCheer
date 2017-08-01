@@ -26,4 +26,9 @@ public class TenantServiceImpl implements TenantService {
 		return repository.save(tenant);
 	}
 
+	@Override
+	public Tenant get(String tenantId) {
+		return repository.findOne(tenantId);
+	}
+
 }

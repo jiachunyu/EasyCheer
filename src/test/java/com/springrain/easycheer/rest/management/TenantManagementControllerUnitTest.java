@@ -29,12 +29,12 @@ import com.springrain.easycheer.model.Tenant;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(TenantManagementController.class)
-public class TenantManagementControllerTest {
+public class TenantManagementControllerUnitTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
-	private static final MediaType mediaTypeJson = new MediaType(MediaType.APPLICATION_JSON.getType(),
+	private static final MediaType MEDIA_TYPE_JSON = new MediaType(MediaType.APPLICATION_JSON.getType(),
 			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
 	private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -54,8 +54,8 @@ public class TenantManagementControllerTest {
 		((ObjectNode) jsonNode).remove("id");
 
 		MvcResult mvcResult = mockMvc
-				.perform(post("/management/tenant").contentType(mediaTypeJson).content(objectMapper.writeValueAsBytes(jsonNode)))
-				.andDo(print()).andExpect(status().isOk()).andExpect(content().contentType(mediaTypeJson)).andReturn();
+				.perform(post("/management/tenant").contentType(MEDIA_TYPE_JSON).content(objectMapper.writeValueAsBytes(jsonNode)))
+				.andDo(print()).andExpect(status().isOk()).andExpect(content().contentType(MEDIA_TYPE_JSON)).andReturn();
 		Tenant responseTenant = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), Tenant.class);
 
 		assertTrue(new EqualsBuilder().setTestRecursive(true).setExcludeFields("id")

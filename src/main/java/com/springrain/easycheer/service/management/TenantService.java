@@ -6,4 +6,5 @@ public interface TenantService {
 	
 	public Tenant create(Tenant tenant);
 	
+	public Tenant get(String tenantId);
 }
