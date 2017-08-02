@@ -1,5 +1,7 @@
 package com.springrain.easycheer.rest.management;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,13 @@ public class TenantManagementController {
 	
 	@RequestMapping(value="/{tenantId}", method=RequestMethod.GET)
 	public Tenant get(@PathVariable String tenantId) {
+		Tenant tenant = new Tenant();
+		tenant.setName("test name");
+		tenant.setLicenseDate(new Date());
+		tenant.setLicenseNumber(100);
+		
+		tenantId = tenantService.create(tenant).getId();
+		
 		return tenantService.get(tenantId);
 	}
 }
