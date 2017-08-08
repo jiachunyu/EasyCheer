@@ -24,6 +24,11 @@ public class TenantManagementController {
 	
 	@RequestMapping(value="/{tenantId}", method=RequestMethod.GET)
 	public Tenant get(@PathVariable String tenantId) {
-		return tenantService.get(tenantId);
+		Tenant tenant = tenantService.get(tenantId);
+		if(tenant != null) {
+			return tenant;
+		} else {
+			throw new ObjectNotFoundException();
+		}
 	}
 }

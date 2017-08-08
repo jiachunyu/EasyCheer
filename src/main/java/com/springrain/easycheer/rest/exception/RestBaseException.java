@@ -1,12 +1,13 @@
-package com.springrain.easycheer.rest;
+package com.springrain.easycheer.rest.exception;
 
-public class ErrorResponse {
-
+public class RestBaseException extends Exception {
+	
 	private String errorCode;
-
+	
 	private String errorMessage;
 
-	public ErrorResponse(String errorCode, String errorMessage) {
+	public RestBaseException(String errorCode, String errorMessage) {
+		super();
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
@@ -26,5 +27,5 @@ public class ErrorResponse {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-	
+
 }
