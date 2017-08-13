@@ -31,5 +31,12 @@ public class TenantManagementControllerIntegrationTest {
 		Tenant responseTenant = template.postForObject("/management/tenant", requestTenant, Tenant.class);
 		assertNotNull(responseTenant.getId());
 	}
+	
+	@Test
+	public void testGet_InvalidId() {
+		
+		Tenant responseTenant = template.postForObject("/management/tenant", requestTenant, Tenant.class);
+		assertNotNull(responseTenant.getId());
+	}
 
 }

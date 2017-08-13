@@ -1,22 +1,22 @@
-package com.springrain.easycheer.rest.exception;
+package com.springrain.easycheer.exception;
 
-public class RestBaseException extends Exception {
+public class BaseException extends Exception {
 	
-	private String errorCode;
+	private int errorCode;
 	
 	private String errorMessage;
 
-	public RestBaseException(String errorCode, String errorMessage) {
+	public BaseException(int errorCode, String errorMessage) {
 		super();
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
 
-	public String getErrorCode() {
+	public int getErrorCode() {
 		return errorCode;
 	}
 
-	public void setErrorCode(String errorCode) {
+	public void setErrorCode(int errorCode) {
 		this.errorCode = errorCode;
 	}
 
