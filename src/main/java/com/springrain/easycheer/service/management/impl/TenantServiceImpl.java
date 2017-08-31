@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.springrain.easycheer.model.Tenant;
 import com.springrain.easycheer.repository.TenantRepository;
-import com.springrain.easycheer.service.management.TenantService;
+import com.springrain.easycheer.service.management.ITenantService;
 
 @Service
-public class TenantServiceImpl implements TenantService {
+public class TenantServiceImpl implements ITenantService {
 
 	@Autowired
 	private TenantRepository repository;
