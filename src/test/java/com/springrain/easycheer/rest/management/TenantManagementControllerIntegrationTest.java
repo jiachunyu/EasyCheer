@@ -1,5 +1,6 @@
 package com.springrain.easycheer.rest.management;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -39,6 +41,11 @@ public class TenantManagementControllerIntegrationTest {
 	public void testGet_InvalidId() {
 		ResponseEntity<ErrorResponse> responseEntity = template.getForEntity("/management/tenant/invalid_tenant_id",
 				ErrorResponse.class, new HashMap<String, String>());
+		assertEquals("Response code should be 404.", HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+		ErrorResponse errorResponse = responseEntity.getBody();
+		assertEquals("Error code is wrong.", 1, errorResponse.getErrorCode());
+		assertEquals("Error messsage is wrong.", "Can not find tenant with id invalid_tenant_id",
+				errorResponse.getErrorMessage());
 	}
 
 }

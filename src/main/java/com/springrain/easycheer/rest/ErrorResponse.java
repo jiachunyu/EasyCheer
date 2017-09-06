@@ -8,6 +8,9 @@ public class ErrorResponse {
 
 	private String errorMessage;
 
+	public ErrorResponse() {
+	}
+	
 	public ErrorResponse(BaseException exception) {
 		this.errorCode = exception.getErrorCode();
 		this.errorMessage = exception.getErrorMessage();
