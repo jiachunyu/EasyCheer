@@ -1,5 +1,7 @@
 package com.springrain.easycheer.rest.management;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,11 +28,7 @@ public class TenantManagementController {
 	
 	@RequestMapping(value="/{tenantId}", method=RequestMethod.GET)
 	public Tenant get(@PathVariable String tenantId) throws ObjectNotFoundException {
-		Tenant tenant = tenantService.get(tenantId);
-		if(tenant != null) {
-			return tenant;
-		} else {
-			throw new ObjectNotFoundException(ErrorCode.TENANT_NOT_FOUND, "Can not find tenant with id " + tenantId);
-		}
+		return Optional.ofNullable(tenantService.get(tenantId))
+				.orElseThrow(()->new ObjectNotFoundException(ErrorCode.TENANT_NOT_FOUND, "Can not find tenant with id " + tenantId));
 	}
 }
