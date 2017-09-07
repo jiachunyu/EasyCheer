@@ -2,6 +2,7 @@ package com.springrain.easycheer.exception;
 
 public class BaseException extends Exception {
 	
+	/*
 	private int errorCode;
 	
 	private String errorMessage;
@@ -27,5 +28,6 @@ public class BaseException extends Exception {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
+	*/
 
 }

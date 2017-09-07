@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.springrain.easycheer.exception.BaseException;
+import com.springrain.easycheer.exception.ErrorCode;
 import com.springrain.easycheer.exception.ObjectNotFoundException;
 
-@ControllerAdvice
+@ControllerAdvice("TenantManagementController")
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler({ObjectNotFoundException.class})
 	public ResponseEntity<ErrorResponse> handleException(HttpServletRequest httpRequest, BaseException exception) {
-		return new ResponseEntity<ErrorResponse>(new ErrorResponse(exception), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ErrorResponse>(new ErrorResponse(ErrorCode.TENANT_NOT_FOUND, "Can not find tenant with id " + tenantId), HttpStatus.NOT_FOUND);
 	}
 }

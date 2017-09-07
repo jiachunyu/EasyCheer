@@ -1,7 +1,5 @@
 package com.springrain.easycheer.rest;
 
-import com.springrain.easycheer.exception.BaseException;
-
 public class ErrorResponse {
 
 	private int errorCode;
@@ -9,11 +7,6 @@ public class ErrorResponse {
 	private String errorMessage;
 
 	public ErrorResponse() {
-	}
-	
-	public ErrorResponse(BaseException exception) {
-		this.errorCode = exception.getErrorCode();
-		this.errorMessage = exception.getErrorMessage();
 	}
 
 	public ErrorResponse(int errorCode, String errorMessage) {
