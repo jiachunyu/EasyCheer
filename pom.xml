@@ -77,6 +77,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<excludedGroups>com.springrain.easycheer.IntegrationTest</excludedGroups>
+					<skip>${surefire.skip}</skip>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -91,6 +92,11 @@
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
+						<configuration>
+							<includes>
+								<include>**/*Test.class</include>
+							</includes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

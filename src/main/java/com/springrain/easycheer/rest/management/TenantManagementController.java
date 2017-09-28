@@ -3,6 +3,8 @@ package com.springrain.easycheer.rest.management;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +24,8 @@ public class TenantManagementController {
 	private ITenantService tenantService;
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public Tenant create(@RequestBody Tenant tenant) {
-		return tenantService.create(tenant);
+	public ResponseEntity<Tenant> create(@RequestBody Tenant tenant) {
+		return new ResponseEntity<Tenant>(tenantService.create(tenant), HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/{tenantId}", method=RequestMethod.GET)
