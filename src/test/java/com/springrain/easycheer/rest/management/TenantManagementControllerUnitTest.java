@@ -54,7 +54,7 @@ public class TenantManagementControllerUnitTest {
 		((ObjectNode) jsonNode).remove("id");
 
 		MvcResult mvcResult = mockMvc
-				.perform(post("/management/tenant").contentType(MEDIA_TYPE_JSON).content(objectMapper.writeValueAsBytes(jsonNode)))
+				.perform(post("/management/tenants").contentType(MEDIA_TYPE_JSON).content(objectMapper.writeValueAsBytes(jsonNode)))
 				.andDo(print()).andExpect(status().isOk()).andExpect(content().contentType(MEDIA_TYPE_JSON)).andReturn();
 		Tenant responseTenant = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), Tenant.class);
 

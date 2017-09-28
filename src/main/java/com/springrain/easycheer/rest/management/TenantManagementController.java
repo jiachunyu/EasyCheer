@@ -15,7 +15,7 @@ import com.springrain.easycheer.model.Tenant;
 import com.springrain.easycheer.service.management.ITenantService;
 
 @RestController
-@RequestMapping(value="/management/tenant")
+@RequestMapping(value="/management/tenants")
 public class TenantManagementController {
 
 	@Autowired
