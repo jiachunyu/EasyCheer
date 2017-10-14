@@ -14,8 +14,9 @@ import com.springrain.easycheer.exception.ObjectNotFoundException;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler({ObjectNotFoundException.class})
+	@ExceptionHandler({ ObjectNotFoundException.class })
 	public ResponseEntity<ErrorResponse> handleException(HttpServletRequest httpRequest, BaseException exception) {
-		return new ResponseEntity<ErrorResponse>(new ErrorResponse(exception), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ErrorResponse>(new ErrorResponse(exception), RestUtil.REST_RESPONSE_HEADERS,
+				HttpStatus.NOT_FOUND);
 	}
 }

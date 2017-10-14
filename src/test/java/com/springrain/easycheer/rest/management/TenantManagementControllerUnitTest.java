@@ -40,9 +40,6 @@ public class TenantManagementControllerUnitTest {
 	@MockBean
 	private ITenantService tenantService;
 
-	private static final MediaType MEDIA_TYPE_JSON = new MediaType(MediaType.APPLICATION_JSON.getType(),
-			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
-
 	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	@BeforeClass

@@ -14,23 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springrain.easycheer.exception.ErrorCode;
 import com.springrain.easycheer.exception.ObjectNotFoundException;
 import com.springrain.easycheer.model.Tenant;
+import com.springrain.easycheer.rest.RestUtil;
 import com.springrain.easycheer.service.management.ITenantService;
 
 @RestController
-@RequestMapping(value="/management/tenants")
+@RequestMapping(value = "/management/tenants")
 public class TenantManagementController {
 
 	@Autowired
 	private ITenantService tenantService;
-	
-	@RequestMapping(method=RequestMethod.POST)
+
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Tenant> create(@RequestBody Tenant tenant) {
-		return new ResponseEntity<Tenant>(tenantService.create(tenant), HttpStatus.CREATED);
+		return new ResponseEntity<Tenant>(tenantService.create(tenant), RestUtil.REST_RESPONSE_HEADERS,
+				HttpStatus.CREATED);
 	}
-	
-	@RequestMapping(value="/{tenantId}", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
 	public Tenant get(@PathVariable String tenantId) throws ObjectNotFoundException {
 		return Optional.ofNullable(tenantService.get(tenantId))
-				.orElseThrow(()->new ObjectNotFoundException(ErrorCode.TENANT_NOT_FOUND, "Can not find tenant with id " + tenantId));
+				.orElseThrow(() -> new ObjectNotFoundException(ErrorCode.TENANT_NOT_FOUND,
+						"Can not find tenant with id " + tenantId));
 	}
 }
