@@ -2,7 +2,8 @@ package com.springrain.easycheer.rest.management;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -28,6 +29,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.springrain.easycheer.model.Tenant;
+import com.springrain.easycheer.rest.RestUtil;
 import com.springrain.easycheer.service.management.ITenantService;
 
 @RunWith(SpringRunner.class)
@@ -56,13 +58,16 @@ public class TenantManagementControllerUnitTest {
 		JsonNode jsonNode = objectMapper.valueToTree(requestTenant);
 		((ObjectNode) jsonNode).remove("id");
 
-		/*
-		given(tenantService.create(requestTenant)).willReturn(requestTenant);
+		when(tenantService.create(isNotNull())).thenReturn(any());
+		
+		
 		MvcResult mvcResult = mockMvc
-				.perform(post("/management/tenants").contentType(MEDIA_TYPE_JSON).content(objectMapper.writeValueAsBytes(jsonNode)))
+				.perform(post("/management/tenants")
+				.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+				.content(objectMapper.writeValueAsBytes(jsonNode)))
 				.andDo(print())
 				.andExpect(status().isOk())
-			//	.andExpect(content().contentType(MEDIA_TYPE_JSON))
+				.andExpect(content().contentType())
 				.andReturn();
 		Tenant responseTenant = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), Tenant.class);
 
