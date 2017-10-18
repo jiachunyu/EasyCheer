@@ -25,8 +25,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.springrain.easycheer.model.Tenant;
 import com.springrain.easycheer.rest.RestUtil;
@@ -51,29 +54,37 @@ public class TenantManagementControllerUnitTest {
 
 	@Test
 	public void create() throws Exception {
-		Tenant requestTenant = new Tenant();
-		requestTenant.setName("test name");
-		requestTenant.setLicenseDate(new Date());
-		requestTenant.setLicenseNumber(100);
-		JsonNode jsonNode = objectMapper.valueToTree(requestTenant);
-		((ObjectNode) jsonNode).remove("id");
+//		Tenant requestTenant = new Tenant();
+//		requestTenant.setName("test name");
+//		requestTenant.setLicenseDate(new Date());
+//		requestTenant.setLicenseNumber(100);
+//		JsonNode jsonNode = objectMapper.valueToTree(requestTenant);
+//		((ObjectNode) jsonNode).remove("id");
+		
+		JsonNodeFactory jsonNodeFactory = new JsonNodeFactory(false);
+		JsonFactory jsonFactory = new JsonFactory();
+		JsonGenerator generator = jsonFactory.createGenerator(System.out);
+		ObjectMapper mapper = new ObjectMapper();
+		
+		ObjectNode tenant = jsonNodeFactory.objectNode();
+		tenant.put("name", "test name");
+		tenant.put("licenseDate", "");
+		tenant.put("licenseNumber", 100);
 
 		when(tenantService.create(isNotNull())).thenReturn(any());
 		
-		
 		MvcResult mvcResult = mockMvc
 				.perform(post("/management/tenants")
-				.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.content(objectMapper.writeValueAsBytes(jsonNode)))
 				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(content().contentType())
+				.andExpect(status().isCreated())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andReturn();
 		Tenant responseTenant = objectMapper.readValue(mvcResult.getResponse().getContentAsByteArray(), Tenant.class);
 
 		assertTrue(new EqualsBuilder().setTestRecursive(true).setExcludeFields("id")
 				.append(requestTenant, responseTenant).build());
 		assertEquals("1", responseTenant.getId());
-		*/
 	}
 }
