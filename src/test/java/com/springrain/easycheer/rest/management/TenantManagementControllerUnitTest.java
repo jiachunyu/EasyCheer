@@ -65,6 +65,7 @@ public class TenantManagementControllerUnitTest {
 		JsonFactory jsonFactory = new JsonFactory();
 		JsonGenerator generator = jsonFactory.createGenerator(System.out);
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.
 		
 		ObjectNode tenant = jsonNodeFactory.objectNode();
 		tenant.put("name", "test name");
