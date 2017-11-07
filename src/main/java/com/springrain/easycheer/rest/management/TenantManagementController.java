@@ -26,8 +26,6 @@ public class TenantManagementController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Tenant> create(@RequestBody Tenant tenant) {
-		int a = 0;
-		a = 1;
 		return new ResponseEntity<Tenant>(tenantService.create(tenant), RestUtil.REST_RESPONSE_HEADERS,
 				HttpStatus.CREATED);
 	}
