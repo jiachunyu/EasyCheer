@@ -2,6 +2,7 @@ package com.springrain.easycheer.rest.management;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -9,8 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,37 +46,38 @@ public class TenantManagementControllerUnitTest {
 
 	@Test
 	public void create() throws Exception {
-		ObjectNode requestTenant = jsonNodeFactory.objectNode();
-		requestTenant.put("name", "test name");
-		requestTenant.put("LicenseDate", "2017-01-01");
-		requestTenant.put("licenseNumber", 100);
+		ObjectNode jsonRequest = jsonNodeFactory.objectNode();
+		jsonRequest.put("name", "test name");
+		jsonRequest.put("licenseDate", "2017-01-01");
+		jsonRequest.put("licenseNumber", 100);
 		
-		Tenant returnedTenant = new Tenant();
-		returnedTenant.setName("test name");
-		returnedTenant.setLicenseDate(LocalDate.of(2017, 1, 1));
-		returnedTenant.setLicenseNumber(100);
-		returnedTenant.setId("abc123");
-		when(tenantService.create(any())).thenReturn(returnedTenant);
+		Tenant serviceReturnedTenant = new Tenant();
+		serviceReturnedTenant.setName("test name");
+		serviceReturnedTenant.setLicenseDate(Date.valueOf("2017-01-01"));
+		serviceReturnedTenant.setLicenseNumber(100);
+		serviceReturnedTenant.setId("abc123");
+		when(tenantService.create(any())).thenReturn(serviceReturnedTenant);
 		
 		MvcResult mvcResult = mockMvc
 				.perform(post("/management/tenants")
 						.contentType(MediaType.APPLICATION_JSON_UTF8)
-						.content(objectMapper.writeValueAsString(requestTenant)))
+						.content(objectMapper.writeValueAsString(jsonRequest)))
 				.andDo(print())
 				.andExpect(status().isCreated())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andReturn();
 		
-		Tenant givenTenant = new Tenant();
-		givenTenant.setName("test name");
-		givenTenant.setLicenseDate(LocalDate.of(2017, 1, 1));
-		givenTenant.setLicenseNumber(100);
-		//verify(tenantService).create(givenTenant);
+		Tenant expectedServiceArgument = new Tenant();
+		expectedServiceArgument.setName("test name");
+		expectedServiceArgument.setLicenseDate(Date.valueOf("2017-01-01"));
+		expectedServiceArgument.setLicenseNumber(100);
+		verify(tenantService).create(argThat(actualServiceArgument -> new EqualsBuilder()
+				.append(expectedServiceArgument, actualServiceArgument).build()));
 
-		JsonNode responseTenant = objectMapper.readTree(mvcResult.getResponse().getContentAsByteArray());
-		assertEquals("name is wrong", "test name", responseTenant.get("name").asText());
-		//assertEquals("licenseDate is wrong", "2017-01-01", responseTenant.get("licenseDate").asText());
-		assertEquals("licenseNumber is wrong", 100, responseTenant.get("licenseNumber").asInt());
-		assertEquals("id is wrong", "abc123", responseTenant.get("id").asText());
+		JsonNode jsonResponse = objectMapper.readTree(mvcResult.getResponse().getContentAsByteArray());
+		assertEquals("name is wrong", "test name", jsonResponse.get("name").asText());
+		assertEquals("licenseDate is wrong", "2017-01-01", jsonResponse.get("licenseDate").asText());
+		assertEquals("licenseNumber is wrong", 100, jsonResponse.get("licenseNumber").asInt());
+		assertEquals("id is wrong", "abc123", jsonResponse.get("id").asText());
 	}
 }

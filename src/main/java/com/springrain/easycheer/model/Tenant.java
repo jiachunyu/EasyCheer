@@ -1,6 +1,6 @@
 package com.springrain.easycheer.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table
@@ -28,8 +26,7 @@ public class Tenant {
 	private int licenseNumber;
 
 	@Column
-	@DateTimeFormat(iso = ISO.DATE)
-	private LocalDate licenseDate;
+	private Date licenseDate;
 	
 	public String getId() {	
 		return id;
@@ -55,11 +52,11 @@ public class Tenant {
 		this.licenseNumber = licenseNumber;
 	}
 
-	public LocalDate getLicenseDate() {
+	public Date getLicenseDate() {
 		return licenseDate;
 	}
 
-	public void setLicenseDate(LocalDate licenseDate) {
+	public void setLicenseDate(Date licenseDate) {
 		this.licenseDate = licenseDate;
 	}
 
