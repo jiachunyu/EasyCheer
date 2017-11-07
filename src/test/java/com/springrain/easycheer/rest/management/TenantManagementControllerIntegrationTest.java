@@ -33,7 +33,7 @@ public class TenantManagementControllerIntegrationTest {
 	public void testCreate_Get() {
 		Tenant requestTenant = new Tenant();
 		requestTenant.setName("test name");
-		requestTenant.setLicenseDate(new Date());
+		//requestTenant.setLicenseDate(new Date());
 		requestTenant.setLicenseNumber(100);
 	
 		Tenant responseTenant = template.postForObject("/management/tenants", requestTenant, Tenant.class);

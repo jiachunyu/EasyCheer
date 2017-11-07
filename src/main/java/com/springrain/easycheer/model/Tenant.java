@@ -1,5 +1,6 @@
 package com.springrain.easycheer.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -26,7 +27,7 @@ public class Tenant {
 	private int licenseNumber;
 
 	@Column
-	private Date licenseDate;
+	private LocalDate licenseDate;
 	
 	public String getId() {
 		return id;
@@ -52,11 +53,11 @@ public class Tenant {
 		this.licenseNumber = licenseNumber;
 	}
 
-	public Date getLicenseDate() {
+	public LocalDate getLicenseDate() {
 		return licenseDate;
 	}
 
-	public void setLicenseDate(Date licenseDate) {
+	public void setLicenseDate(LocalDate licenseDate) {
 		this.licenseDate = licenseDate;
 	}
 
