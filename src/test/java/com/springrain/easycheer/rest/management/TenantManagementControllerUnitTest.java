@@ -72,7 +72,7 @@ public class TenantManagementControllerUnitTest {
 		expectedServiceArgument.setLicenseDate(Date.valueOf("2017-01-01"));
 		expectedServiceArgument.setLicenseNumber(100);
 		verify(tenantService).create(argThat(actualServiceArgument -> new EqualsBuilder()
-				.append(expectedServiceArgument, actualServiceArgument).build()));
+				.setTestRecursive(true).append(expectedServiceArgument, actualServiceArgument).build()));
 
 		JsonNode jsonResponse = objectMapper.readTree(mvcResult.getResponse().getContentAsByteArray());
 		assertEquals("name is wrong", "test name", jsonResponse.get("name").asText());
